@@ -11,9 +11,11 @@
 |
 */
 
-const Route = use('Route')
+const Route = use('Route');
 
-Route.post('/register', 'AuthController.register')
-Route.post('/authenticate', 'AuthController.authenticate')
+Route.post('/register', 'AuthController.register');
+Route.post('/authenticate', 'AuthController.authenticate');
 
-Route.get('/app', 'AppController.index').middleware(['auth'])
+Route.resource('/post', 'PostController')
+  .apiOnly()
+  .except('update');

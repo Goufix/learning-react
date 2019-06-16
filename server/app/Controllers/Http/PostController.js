@@ -2,7 +2,8 @@
 /** @typedef {import('@adonisjs/framework/src/Response')} Response */
 /** @typedef {import('@adonisjs/framework/src/View')} View */
 const Post = use('App/Models/Post');
-const got = require('got');
+const Helpers = use('Helpers');
+
 /**
  * Resourceful controller for interacting with posts
  */
@@ -29,20 +30,23 @@ class PostController {
    * @param {Response} ctx.response
    */
   async store({ request, response }) {
-    const data = request.only([
+    /*const data = request.only([
       'author',
       'place',
       'description',
       'hashtags',
       'likes'
-    ]);
-    const profilePic = await request
-      .file('image', {
-        types: ['image'],
-        size: '10mb'
-      })
-      .them();
+    ]);*/
+    const profilePic = await request.file('image', {
+      types: ['image'],
+      size: '10mb'
+    });
+
     console.log(profilePic);
+    const imageURL = await profilePic.move(Helpers.tmpPath('uploads'), {
+      name: 'custom-name.jpg',
+      overwrite: true
+    });
     //const post = await Post.create(...data);
 
     return { test: 'test' };

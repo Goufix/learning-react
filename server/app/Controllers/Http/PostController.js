@@ -2,6 +2,7 @@
 /** @typedef {import('@adonisjs/framework/src/Response')} Response */
 /** @typedef {import('@adonisjs/framework/src/View')} View */
 const Post = use('App/Models/Post');
+const got = require('got');
 /**
  * Resourceful controller for interacting with posts
  */
@@ -35,9 +36,16 @@ class PostController {
       'hashtags',
       'likes'
     ]);
-    const post = await Post.create(...data);
+    const profilePic = await request
+      .file('image', {
+        types: ['image'],
+        size: '10mb'
+      })
+      .them();
+    console.log(profilePic);
+    //const post = await Post.create(...data);
 
-    return post;
+    return { test: 'test' };
   }
 
   /**

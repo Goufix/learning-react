@@ -30,26 +30,32 @@ class PostController {
    * @param {Response} ctx.response
    */
   async store({ request, response }) {
-    /*const data = request.only([
+    const data = request.only([
       'author',
       'place',
       'description',
       'hashtags',
       'likes'
-    ]);*/
+    ]);
     const profilePic = await request.file('image', {
       types: ['image'],
       size: '10mb'
     });
 
     console.log(profilePic);
-    const imageURL = await profilePic.move(Helpers.tmpPath('uploads'), {
-      name: 'custom-name.jpg',
+    await profilePic.move(Helpers.tmpPath('uploads'), {
+      name: `${Date.now()}.png`,
       overwrite: true
     });
-    //const post = await Post.create(...data);
+    if (!profilePic.moved()) {
+      console.log(profilePic.error());
+    } else {
+      console.log(`file moved as ${profilePic.fileName}`);
+    }
+    data.image = profilePic.fileName;
+    const post = await Post.create({ ...data });
 
-    return { test: 'test' };
+    return post;
   }
 
   /**

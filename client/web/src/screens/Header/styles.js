@@ -14,7 +14,7 @@ export const Images = styled.div`
   padding: 0 30px;
 
   display: flex;
-  align-content: center;
+  align-items: center;
   justify-content: space-between;
 `
 
